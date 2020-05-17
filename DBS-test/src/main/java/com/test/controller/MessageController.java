@@ -19,16 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
 	@Autowired
-	private Destination queue;
-
-	@Autowired
 	private JmsTemplate jmsTemplate;
 
 	@GetMapping("message/{message}")
 
 	public ResponseEntity<String> publish(@PathVariable("message") final String message) {
 
-		jmsTemplate.convertAndSend(queue, message);
+		jmsTemplate.convertAndSend("ProductReceiverQueue", message);
 
 		return new ResponseEntity(message, HttpStatus.OK);
 
